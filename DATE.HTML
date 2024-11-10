@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Invitation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #ff6b6b;
+            margin-bottom: 2rem;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        button {
+            padding: 0.5rem 2rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        #yesBtn {
+            background-color: #4ecdc4;
+            color: white;
+        }
+        #noBtn {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        .heart {
+            color: #ff6b6b;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        #catImage {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        #successMessage {
+            color: #4ecdc4;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        #clickMeBtn {
+            background-color: #ffd166;
+            color: black;
+            display: none;
+        }
+        #audioControl, #locationSelector {
+            margin-top: 1rem;
+            display: none;
+        }
+        #audioFile {
+            display: none;
+        }
+        select {
+            padding: 0.5rem;
+            font-size: 1rem;
+            margin-right: 1rem;
+        }
+        #selectedLocation {
+            margin-top: 1rem;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart">❤️</div>
+        <h1>Would you like to go out with me for a date?</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+        <img id="catImage" src="/api/placeholder/200/200" alt="Cute cat">
+        <div id="successMessage">YEAYYY!!! DON'T GO ANYWHERE</div>
+        <button id="clickMeBtn">CLICK ME</button>
+        <div id="audioControl">
+            <input type="file" id="audioFile" accept="audio/*">
+            <button id="playPauseBtn">Play Music</button>
+        </div>
+        <div id="locationSelector">
+            <select id="dateLocation">
+                <option value="">Choose a location</option>
+                <option value="restaurant">Restaurant</option>
+                <option value="park">Park</option>
+                <option value="movie">Movie Theater</option>
+                <option value="cafe">Cafe</option>
+                <option value="beach">Beach</option>
+            </select>
+            <button id="confirmLocation">Confirm Location</button>
+        </div>
+        <div id="selectedLocation"></div>
+        <audio id="bgMusic" loop></audio>
+    </div>
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const catImage = document.getElementById('catImage');
+        const successMessage = document.getElementById('successMessage');
+        const clickMeBtn = document.getElementById('clickMeBtn');
+        const audioControl = document.getElementById('audioControl');
+        const audioFile = document.getElementById('audioFile');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        const locationSelector = document.getElementById('locationSelector');
+        const dateLocation = document.getElementById('dateLocation');
+        const confirmLocation = document.getElementById('confirmLocation');
+        const selectedLocation = document.getElementById('selectedLocation');
+
+        yesBtn.addEventListener('click', function() {
+            catImage.style.display = 'inline-block';
+            successMessage.style.display = 'block';
+            clickMeBtn.style.display = 'inline-block';
+            yesBtn.style.display = 'none';
+            noBtn.style.display = 'none';
+            audioControl.style.display = 'block';
+            locationSelector.style.display = 'block';
+        });
+
+        noBtn.addEventListener('click', function() {
+            alert('Maybe next time!');
+        });
+
+        clickMeBtn.addEventListener('click', function() {
+            alert('Thank you for accepting! I can\'t wait for our date!');
+        });
+
+        audioFile.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const fileURL = URL.createObjectURL(file);
+            bgMusic.src = fileURL;
+        });
+
+        playPauseBtn.addEventListener('click', function() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                playPauseBtn.textContent = 'Pause Music';
+            } else {
+                bgMusic.pause();
+                playPauseBtn.textContent = 'Play Music';
+            }
+        });
+
+        confirmLocation.addEventListener('click', function() {
+            const location = dateLocation.value;
+            if (location) {
+                selectedLocation.textContent = `Great! Our date will be at the ${location}. I'm looking forward to it!`;
+                locationSelector.style.display = 'none';
+            } else {
+                alert('Please select a location first!');
+            }
+        });
+    </script>
+</body>
+</html>
